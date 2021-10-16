@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>../assets/mauidemo.svg</file>
+        <file>../assets/dragonite.jpg</file>
     </qresource>
 </RCC>
