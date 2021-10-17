@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>widgets/Notebook.qml</file>
+        <file>components/Notebook.qml</file>
     </qresource>
 </RCC>
