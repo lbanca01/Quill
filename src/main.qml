@@ -15,8 +15,6 @@ Maui.ApplicationWindow
     title: "Kuire"
     readonly property font defaultFont : Qt.font({family: "Noto Sans Mono", pointSize: Maui.Style.fontSizes.huge})
 
-    flickable: swipeView.currentItem.item ? swipeView.currentItem.item.flickable || null : swipeView.currentItem.flickable || null
-
     headBar.visible: true
     headerPositioning: ListView.InlineHeader
 
@@ -27,12 +25,12 @@ Maui.ApplicationWindow
             ToolButton
             {
                 id: _button1
-                text: "prova"
+                text: "penna"
             },
             ToolButton
             {
                 id: _button2
-                text: "prova"
+                text: "evidenziatore"
             },
             ToolButton
             {

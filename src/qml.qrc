@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>components/DrawCanvas.qml</file>
         <file>components/Notebook.qml</file>
     </qresource>
 </RCC>

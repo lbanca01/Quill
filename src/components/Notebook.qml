@@ -7,6 +7,7 @@ import Qt.labs.settings 1.0
 import org.kde.kirigami 2.14 as Kirigami
 import org.mauikit.controls 1.3 as Maui
 
+import "."
 Maui.Page
     {
         id: control
@@ -19,7 +20,6 @@ Maui.Page
         /**
         *
         */
-        property Item sourceItem : null
         readonly property color bgColor : "#333"
         property alias brushSize : _canvas.brushSize
         property alias brushOpacity : _canvas.brushOpacity
@@ -35,15 +35,19 @@ Maui.Page
             contentHeight: _canvas.height
             contentWidth: _canvas.width
 
-            Maui.DoodleCanvas
+            DrawCanvas
             {
                 id: _canvas
                 anchors.fill: parent
                 width: 500
                 height: 500
-                brushSize: 16
+                brushSize: 50
+                brushOpacity : 0.1
+                brushShape: 1
+                maxBrushSize: 500
                 paintColor: "#00ff00"
-               // brushOpacity :_opacitySlider.value
+
             }
-        }
+
     }
+}
