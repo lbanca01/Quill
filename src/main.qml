@@ -26,16 +26,33 @@ Maui.ApplicationWindow
             {
                 id: _button1
                 text: "penna"
+                onClicked:
+                {
+                    _notebook.brushShape = 0
+                    _notebook.brushOpacity = 1
+                }
             },
             ToolButton
             {
                 id: _button2
                 text: "evidenziatore"
+                onClicked:
+                {
+                    _notebook.brushShape = 1
+                    _notebook.brushOpacity = 0.1
+                }
             },
             ToolButton
             {
                 id: _button3
                 text: "prova"
+            },
+            Maui.ColorsRow
+            {
+                id: _colorPicker
+                colors: ["blue", "red", "green"]
+                currentColor: "blue"
+                onColorPicked: _notebook.paintColor = color
             }
         ]
     }

@@ -12,20 +12,51 @@ Maui.Page
     {
         id: control
 
-        background: Rectangle{
-            width: _canvas.width
-            height: _canvas.height
+        background: Rectangle
+        {
+            width: pageWidth
+            height: pageHeight
             color: bgColor
+            border.width: 0.5
+            border.color: squaresColor
+            Column
+            {
+                Repeater
+                {
+                model: _canvas.height / squareSize
+                    Row
+                    {
+                        Repeater
+                        {
+                            model: _canvas.width / squareSize
+                            Rectangle
+                            {
+                                width: squareSize; height: squareSize
+                                border.width: 0.5
+                                border.color: squaresColor
+                                color: bgColor
+                            }
+                        }
+                    }
+                }
+            }
         }
+
         /**
         *
         */
-        readonly property color bgColor : "#333"
-        property alias brushSize : _canvas.brushSize
-        property alias brushOpacity : _canvas.brushOpacity
-        property alias brushShape : _canvas.brushShape //0 -Circular, 1 - rectangular.
-        property alias maxBrushSize: _canvas.maxBrushSize
-        property alias paintColor: _canvas.paintColor
+        property var pageHeight: 560
+        property var pageWidth: 396
+        property string squaresColor: "#FAEBD7"
+        property string bgColor: "#FFFAF0"
+        property var squareSize: 15
+
+
+        property var brushSize: 1
+        property var brushOpacity: 1
+        property var brushShape: 0 // 0 round, 1 rect
+        property var maxBrushSize: 100
+        property string paintColor: "blue"
 
         ScrollView
         {
@@ -39,13 +70,13 @@ Maui.Page
             {
                 id: _canvas
                 anchors.fill: parent
-                width: 500
-                height: 500
-                brushSize: 50
-                brushOpacity : 0.1
-                brushShape: 1
-                maxBrushSize: 500
-                paintColor: "#00ff00"
+                width: control.pageWidth
+                height: control.pageHeight
+                brushSize: control.brushSize + control.brushShape * (control.brushSize * 10) // scale the highliter brush to the correct size
+                brushOpacity : control.brushOpacity
+                brushShape: control.brushShape
+                maxBrushSize: control.brushSize
+                paintColor: control.paintColor
 
             }
 
