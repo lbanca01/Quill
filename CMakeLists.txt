@@ -1,4 +1,4 @@
-project(kuire)
+project(kuill)
 cmake_minimum_required(VERSION 3.0)
 
 find_package(ECM 1.7.0 REQUIRED NO_MODULE)
@@ -16,7 +16,7 @@ include(ECMAddAppIcon)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 
-add_executable(Kuire
+add_executable(Kuill
     src/assets.qrc
     src/main.cpp
     src/qml.qrc
@@ -25,23 +25,23 @@ add_executable(Kuire
 if (ANDROID)
     find_package(Qt5 REQUIRED COMPONENTS AndroidExtras)
 
-    target_link_libraries(Kuire Qt5::AndroidExtras)
+    target_link_libraries(Kuill Qt5::AndroidExtras)
     kde_source_files_enable_exceptions(index src/index.cpp)
 else() 
     find_package(KF5 ${KF5_VERSION} REQUIRED COMPONENTS I18n Notifications Config KIO Service Attica)
     find_package(Qt5 REQUIRED COMPONENTS WebEngine)
 
-    target_link_libraries(Kuire KF5::ConfigCore KF5::Notifications KF5::KIOCore KF5::I18n KF5::Service KF5::Attica)
+    target_link_libraries(Kuill KF5::ConfigCore KF5::Notifications KF5::KIOCore KF5::I18n KF5::Service KF5::Attica)
 endif()
 
-if (TARGET create-apk-Kuire)
-    set_target_properties(create-apk-Kuire PROPERTIES ANDROID_APK_DIR "${MAUIKIT_ANDROID_DIR}")
+if (TARGET create-apk-Kuill)
+    set_target_properties(create-apk-Kuill PROPERTIES ANDROID_APK_DIR "${MAUIKIT_ANDROID_DIR}")
 endif()
 
-target_link_libraries(Kuire MauiKit Qt5::Sql Qt5::Qml Qt5::Widgets Qt5::Svg Qt5::QuickControls2)
+target_link_libraries(Kuill MauiKit Qt5::Sql Qt5::Qml Qt5::Widgets Qt5::Svg Qt5::QuickControls2)
 
-install(TARGETS Kuire ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-install(FILES org.kde.Kuire.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(TARGETS Kuill ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(FILES org.kde.Kuill.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 
 #TODO: port to ecm_install_icons()
 # install(FILES src/assets/mauidemo.svg DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps)

@@ -12,7 +12,7 @@ import "components"
 Maui.ApplicationWindow
 {
     id: root
-    title: "Kuire"
+    title: "Kuill"
     readonly property font defaultFont : Qt.font({family: "Noto Sans Mono", pointSize: Maui.Style.fontSizes.huge})
 
     headBar.visible: true
