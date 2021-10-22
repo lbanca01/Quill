@@ -17,9 +17,9 @@ Maui.Page
             width: pageWidth
             height: pageHeight
             color: bgColor
-            border.width: 0.5
-            border.color: squaresColor
-            Column
+//            border.width: 0.5
+//            border.color: squaresColor
+/*            Column
             {
                 Repeater
                 {
@@ -39,7 +39,7 @@ Maui.Page
                         }
                     }
                 }
-            }
+            }*/
         }
 
         /**
@@ -47,16 +47,16 @@ Maui.Page
         */
         property var pageHeight: 560
         property var pageWidth: 396
-        property string squaresColor: "#FAEBD7"
+        //property string squaresColor: "#FAEBD7"
         property string bgColor: "#FFFAF0"
-        property var squareSize: 15
+        //property var squareSize: 15
 
 
-        property var brushSize: 1
+        property var brushSize: 20
         property var brushOpacity: 1
         property var brushShape: 0 // 0 round, 1 rect
         property var maxBrushSize: 100
-        property string paintColor: "blue"
+        property color paintColor: "blue"
 
         ScrollView
         {
