@@ -88,7 +88,7 @@ Maui.Page
             ctx.globalCompositeOperation = "destination-atop"
             ctx.fillStyle = bgColor
             ctx.fillRect(0, 0, pageWidth, pageHeight)
-            buffer.requestPaint()
-            buffer.save("prova.jpg")
+            _canvas.buffer.requestPaint()
+            _canvas.buffer.save("prova.jpg")
         }
 }
