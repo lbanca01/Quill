@@ -53,6 +53,18 @@ Maui.ApplicationWindow
                     _notebook.brushShape = 0
                     _notebook.brushOpacity = 1
                     _notebook.paintColor = _notebook.bgColor
+
+                }
+            },
+            ToolButton
+            {
+                id: _button4
+                text: "Line"
+                onClicked:
+                {
+                    _notebook.brushShape = 1
+                    _notebook.brushOpacity = 1
+                    _notebook.paintColor = _colorPicker.currentColor
                 }
             },
             Maui.ColorsRow
@@ -60,7 +72,14 @@ Maui.ApplicationWindow
                 id: _colorPicker
                 colors: ["blue", "red", "green"]
                 currentColor: "blue"
-                onColorPicked: _notebook.bgColor ? _notebook.paintColor = currentColor : _notebook.paintColor = color
+                onColorPicked:
+                {
+                    if (_notebook.bgColor != color)
+                    {
+                        _notebook.paintColor = color
+                        _colorPicker.currentColor = color
+                    }
+                }
             }
         ]
     }

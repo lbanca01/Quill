@@ -13,7 +13,6 @@ Item
     property int maxBrushSize: 100
     property color paintColor: "red"
 
-
     Canvas
     {
         id: pickCanvas
@@ -125,9 +124,9 @@ Item
 
             onReleased:
             {
+
                 if (control.brushShape == 1)
                 {
-
                     // **************** Fancy and intense bezier I don't quite understand yet:
                     var currentPoint = Qt.point(mouseX, mouseY)
                     var startPoint = lastDrawPoint
@@ -163,7 +162,7 @@ Item
                     }
 
                     var point = bezierCurve(startPoint, startPoint, currentPoint, 1)
-                    drawRect(point, spacing)
+                    drawLine(point, spacing)
 
                     points.push(currentPoint)
                     lastDrawPoint = point
@@ -187,6 +186,7 @@ Item
                 //Simple dab
                 var size = control.brushSize
                 ctx.fillStyle =  Qt.rgba(control.paintColor.r, control.paintColor.g, control.paintColor.b, control.brushOpacity);
+
                 var x = point.x - size / 2
                 var y = point.y - size / 2
                 ctx.beginPath();
@@ -198,12 +198,15 @@ Item
 
             }
 
-            function drawRect(point, len)
+            function drawLine(point, len)
             {
+
                 var ctx = buffer.getContext("2d")
 
                 //Simple dab
                 var size = control.brushSize
+                ctx.fillStyle =  Qt.rgba(0,0,0,0);
+
                 ctx.fillStyle =  Qt.rgba(control.paintColor.r, control.paintColor.g, control.paintColor.b, control.brushOpacity);
                 var x = point.x - size / 2
                 var y = point.y - size / 2
@@ -212,7 +215,7 @@ Item
                 ctx.translate(x+size/2,y+size/2)
                 ctx.beginPath()
                 ctx.rotate(brushAngle)
-                ctx.roundedRect(-size/4, -size/8, size/2, len, 2, 2)
+                ctx.roundedRect(-size/4, -size/8, size/2, len, 5, 5)
                 ctx.restore()
 
                 ctx.fill()

@@ -72,12 +72,11 @@ Maui.Page
                 anchors.fill: parent
                 width: control.pageWidth
                 height: control.pageHeight
-                brushSize: control.brushSize + control.brushShape * (control.brushSize * 10) // scale the highliter brush to the correct size
+                brushSize: control.brushSize + control.brushShape * (control.brushSize * 10) * (1 - control.brushOpacity) // scale the highliter brush to the correct size
                 brushOpacity : control.brushOpacity
                 brushShape: control.brushShape
                 maxBrushSize: control.brushSize
                 paintColor: control.paintColor
-
             }
 
     }
