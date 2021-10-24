@@ -12,15 +12,7 @@ Item
     property int brushShape : 1 //0 -Circular, 1 - rectangular.
     property int maxBrushSize: 100
     property color paintColor: "red"
-
-    Canvas
-    {
-        id: pickCanvas
-        width: 1
-        height: 1
-        visible: false
-    }
-
+    property color bgColor: "blue"
 
     Canvas
     {
@@ -205,8 +197,6 @@ Item
 
                 //Simple dab
                 var size = control.brushSize
-                ctx.fillStyle =  Qt.rgba(0,0,0,0);
-
                 ctx.fillStyle =  Qt.rgba(control.paintColor.r, control.paintColor.g, control.paintColor.b, control.brushOpacity);
                 var x = point.x - size / 2
                 var y = point.y - size / 2
@@ -223,7 +213,6 @@ Item
 
             }
         }
-
 
     }
 

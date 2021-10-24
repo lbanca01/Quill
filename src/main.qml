@@ -80,6 +80,15 @@ Maui.ApplicationWindow
                         currentColor = color
                     }
                 }
+            },
+            ToolButton
+            {
+                id: _button5
+                text: "Save"
+                onClicked:
+                {
+                    _notebook.save("prova.png")
+                }
             }
         ]
     }

@@ -12,7 +12,7 @@ Maui.Page
     {
         id: control
 
-        background: Rectangle
+       background: Rectangle
         {
             width: pageWidth
             height: pageHeight
@@ -45,8 +45,8 @@ Maui.Page
         /**
         *
         */
-        property var pageHeight: 560
-        property var pageWidth: 396
+        property var pageHeight: 3508
+        property var pageWidth: 2480
         //property string squaresColor: "#FAEBD7"
         property string bgColor: "#FFFAF0"
         //property var squareSize: 15
@@ -79,5 +79,16 @@ Maui.Page
                 paintColor: control.paintColor
             }
 
-    }
+        }
+
+        function save(destination)
+        {
+            // drawing the background in the "output" file
+            var ctx = _canvas.buffer.getContext("2d")
+            ctx.globalCompositeOperation = "destination-atop"
+            ctx.fillStyle = bgColor
+            ctx.fillRect(0, 0, pageWidth, pageHeight)
+            buffer.requestPaint()
+            buffer.save("prova.jpg")
+        }
 }
