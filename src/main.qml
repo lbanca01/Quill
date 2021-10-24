@@ -77,7 +77,7 @@ Maui.ApplicationWindow
                     if (_notebook.bgColor != color)
                     {
                         _notebook.paintColor = color
-                        _colorPicker.currentColor = color
+                        currentColor = color
                     }
                 }
             }
