@@ -67,6 +67,25 @@ Maui.ApplicationWindow
                     _notebook.paintColor = _colorPicker.currentColor
                 }
             },
+            ToolButton
+            {
+                id: _zoomIn
+                text: "Zoom in"
+                onClicked:
+                {
+                    _notebook.scale = 0.75
+
+                }
+            },
+            ToolButton
+            {
+                id: _zoomOut
+                text: "Zoom out"
+                onClicked:
+                {
+                    _notebook.scale = 1.5
+                }
+            },
             Maui.ColorsRow
             {
                 id: _colorPicker
@@ -87,15 +106,22 @@ Maui.ApplicationWindow
                 text: "Save"
                 onClicked:
                 {
-                    _notebook.save("prova.png")
+                    _notebook.saveToFile("prova.png")
                 }
             }
         ]
     }
-
-    Notebook
+    ScrollView
     {
-        id: _notebook
+        id: _scroll
+        anchors.fill: parent
+
+        Notebook
+        {
+            id: _notebook
+            width: 100//248//0
+            height: 100//350//8
+        }
     }
 
 }

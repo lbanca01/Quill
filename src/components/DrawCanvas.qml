@@ -7,19 +7,38 @@ Item
 {
     id: control
     property alias buffer: buffer
+    property alias inMem: inMem
     property int brushSize : 16
     property real brushOpacity : 1
     property int brushShape : 1 //0 -Circular, 1 - rectangular.
     property int maxBrushSize: 100
     property color paintColor: "red"
     property color bgColor: "blue"
+    transformOrigin: Item.TopLeft
+    anchors.fill: parent
+
+    Rectangle
+    {
+        anchors.fill: parent
+        color: bgColor
+        transformOrigin: Item.TopLeft
+    }
+
+    Canvas
+    {
+        id: inMem
+        width: 1
+        height: 1
+        visible: false
+        antialiasing: true
+    }
 
     Canvas
     {
         id: buffer
-
         anchors.fill: parent
-
+        antialiasing: true
+        transformOrigin: Item.TopLeft
         property real lastX
         property real lastY
         property color paintColor: control.paintColor
@@ -35,7 +54,9 @@ Item
         MouseArea
         {
             id: mouseArea
-            anchors.fill: parent
+            //anchors.fill: parent
+            width: control.width
+            height: control.height
             propagateComposedEvents: false
             preventStealing: true
 
@@ -50,6 +71,7 @@ Item
 
             onPressed:
             {
+
                 var point = Qt.point(mouseX, mouseY)
                 points = []
 
@@ -247,6 +269,8 @@ Item
         var AC = Math.sqrt(Math.pow(C.x-A.x,2)+ Math.pow(C.y-A.y,2));
         return Math.acos((BC*BC+AB*AB-AC*AC)/(2*BC*AB));
     }
+
+
 }
 
 
