@@ -73,7 +73,7 @@ Maui.ApplicationWindow
                 text: "Zoom in"
                 onClicked:
                 {
-                    _notebook.scale = 0.75
+                    _notebook.scale -= 0.25
 
                 }
             },
@@ -83,7 +83,7 @@ Maui.ApplicationWindow
                 text: "Zoom out"
                 onClicked:
                 {
-                    _notebook.scale = 1.5
+                    _notebook.scale += 0.25
                 }
             },
             Maui.ColorsRow
@@ -119,8 +119,8 @@ Maui.ApplicationWindow
         Notebook
         {
             id: _notebook
-            width: 100//248//0
-            height: 100//350//8
+            width: 248//0
+            height: 350//8
         }
     }
 
