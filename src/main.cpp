@@ -22,6 +22,8 @@
 #include <QStyleHints>
 #endif
 
+#include "./models/pagesmodel.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -33,9 +35,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 #endif
 
-    app.setApplicationName("Kuire");
+    app.setApplicationName("Kuill");
     app.setApplicationVersion("1.0.0");
-    app.setApplicationDisplayName("Kuire");
+    app.setApplicationDisplayName("Kuill");
     app.setWindowIcon(QIcon("./../assets/mauidemo.svg"));
 
     QQmlApplicationEngine engine;
@@ -47,6 +49,10 @@ int main(int argc, char *argv[])
     MauiKit::getInstance().registerTypes();
 
 #endif
+
+    // i don't know the purpose of the uri
+    qmlRegisterType<PagesModel>("org.maui.kuill", 1, 0, "PagesList");
+
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())

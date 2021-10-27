@@ -17,7 +17,9 @@ Maui.ApplicationWindow
 
     headBar.visible: true
     headerPositioning: ListView.InlineHeader
+    headBar.forceCenterMiddleContent: root.isWide
 
+    // just a temporary toolbar to test various features of the canvas
     headBar.middleContent: Maui.ToolBar
     {
         id: _toolbar
@@ -73,7 +75,7 @@ Maui.ApplicationWindow
                 text: "Zoom in"
                 onClicked:
                 {
-                    _notebook.scale -= 0.25
+                    _notebook.scale *= 0.25
 
                 }
             },
@@ -83,7 +85,7 @@ Maui.ApplicationWindow
                 text: "Zoom out"
                 onClicked:
                 {
-                    _notebook.scale += 0.25
+                    _notebook.scale /= 0.25
                 }
             },
             Maui.ColorsRow
@@ -108,20 +110,39 @@ Maui.ApplicationWindow
                 {
                     _notebook.saveToFile("prova.png")
                 }
+            },
+            ToolButton
+            {
+                id: _addPage
+                text: "Add page"
+                onClicked:
+                {
+                    _notebook.addPage()
+                }
+            },
+            ToolButton
+            {
+                id: _deletePage
+                text: "Remove page"
+                onClicked:
+                {
+                    _notebook.removePage()
+                }
             }
         ]
     }
-    ScrollView
+
+    Notebook
     {
-        id: _scroll
+        id: _notebook
         anchors.fill: parent
 
-        Notebook
-        {
-            id: _notebook
-            width: 248//0
-            height: 350//8
-        }
+        // A4 starndard 700dpi (i think)
+        pageWidth: 2480
+        pageHeight: 3508
+        scale: 0.1
     }
+
+
 
 }

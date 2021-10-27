@@ -7,30 +7,18 @@ Item
 {
     id: control
     property alias buffer: buffer
-    property alias inMem: inMem
     property int brushSize : 16
     property real brushOpacity : 1
     property int brushShape : 1 //0 -Circular, 1 - rectangular.
     property int maxBrushSize: 100
     property color paintColor: "red"
     property color bgColor: "blue"
-    transformOrigin: Item.TopLeft
-    anchors.fill: parent
 
     Rectangle
     {
-        anchors.fill: parent
+        width: control.width
+        height: control.height
         color: bgColor
-        transformOrigin: Item.TopLeft
-    }
-
-    Canvas
-    {
-        id: inMem
-        width: 1
-        height: 1
-        visible: false
-        antialiasing: true
     }
 
     Canvas
@@ -38,7 +26,6 @@ Item
         id: buffer
         anchors.fill: parent
         antialiasing: true
-        transformOrigin: Item.TopLeft
         property real lastX
         property real lastY
         property color paintColor: control.paintColor
@@ -54,7 +41,6 @@ Item
         MouseArea
         {
             id: mouseArea
-            //anchors.fill: parent
             width: control.width
             height: control.height
             propagateComposedEvents: false

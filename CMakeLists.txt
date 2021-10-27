@@ -17,6 +17,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 
 add_executable(Kuill
+    src/models/pagesmodel.cpp
+    src/models/pagesmodel.h
     src/assets.qrc
     src/main.cpp
     src/qml.qrc
