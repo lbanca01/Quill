@@ -14,6 +14,9 @@ Item
     property color paintColor: "red"
     property color bgColor: "blue"
 
+    signal update()
+
+
     Rectangle
     {
         width: control.width
@@ -177,7 +180,7 @@ Item
                 // Clear the buffer
                 buffer.requestPaint()
 
-
+                control.update()
             }
 
             function drawDab(point)
