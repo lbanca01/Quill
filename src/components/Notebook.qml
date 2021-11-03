@@ -7,7 +7,7 @@ import Qt.labs.settings 1.0
 import org.kde.kirigami 2.14 as Kirigami
 import org.mauikit.controls 1.3 as Maui
 
-import org.maui.kuill 1.0
+import org.maui.quill 1.0
 
 import "."
 Item
@@ -102,7 +102,6 @@ Item
     {
         // drawing the background in the "output" file
         var count = _pages.count()
-        console.log(count + " pages in saveToFile()")
         _out.width = pageWidth
         _out.height = pageHeight * count
         var ctx = _out.getContext("2d")
@@ -120,7 +119,7 @@ Item
 
     function addPage()
     {   
-        _pages.add({"n" : _pages.count()})
+        _pages.add({})
     }
 
     function removePage()

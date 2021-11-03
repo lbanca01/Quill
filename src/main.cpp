@@ -35,9 +35,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 #endif
 
-    app.setApplicationName("Kuill");
+    app.setApplicationName("Quill");
     app.setApplicationVersion("1.0.0");
-    app.setApplicationDisplayName("Kuill");
+    app.setApplicationDisplayName("Quill");
     app.setWindowIcon(QIcon("./../assets/mauidemo.svg"));
 
     QQmlApplicationEngine engine;
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 #endif
 
     // i don't know the purpose of the uri
-    qmlRegisterType<PagesModel>("org.maui.kuill", 1, 0, "PagesList");
+    qmlRegisterType<PagesModel>("org.maui.quill", 1, 0, "PagesList");
 
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

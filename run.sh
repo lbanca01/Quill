@@ -4,4 +4,4 @@ cd build/
 cmake ..
 make
 cd ..
-./build/Kuill 
+./build/Quill 

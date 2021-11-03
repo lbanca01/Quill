@@ -45,8 +45,6 @@ PagesModel::PagesModel(QObject *parent)
 
 bool PagesModel::remove(const int &index)
 {
-        printf("%d,%d,%d\n", index, this->m_canvas.count(), this->list.count());
-
     if (index >= this->list.size() || index < 0)
         return false;
 
@@ -63,9 +61,6 @@ bool PagesModel::add(const QVariantMap &map)
     qDebug() << "INSERTING NEW PAGE" << map;
 
     const auto model = FMH::toModel(map);
-
-    if (map.isEmpty())
-        return false;
 
     qDebug() << "inserting new page count" << this->list.count();
     emit this->preItemAppended();
