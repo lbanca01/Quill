@@ -1,62 +1,106 @@
-#include <QQmlApplicationEngine>
-
 #include <QCommandLineParser>
-#include <QFileInfo>
+#include <QDate>
+#include <QDir>
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QQuickStyle>
+
+#include <KI18n/KLocalizedString>
+
+#include <MauiKit/Core/mauiapp.h>
+
 #ifdef Q_OS_ANDROID
+#include <MauiKit/Core/mauiandroid.h>
 #include <QGuiApplication>
-#include <QIcon>
 #else
 #include <QApplication>
 #endif
 
-#ifdef STATIC_KIRIGAMI
-#include "./3rdparty/kirigami/src/kirigamiplugin.h"
-#endif
+#include "../quill_version.h"
 
-#ifdef STATIC_MAUIKIT
-#include "./mauikit/src/mauikit.h"
-#include <QStyleHints>
-#endif
+#define QUILL_URI "org.maui.quill"
 
-#include "./models/pagesmodel.h"
-
-int main(int argc, char *argv[])
+int Q_DECL_EXPORT main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
 #ifdef Q_OS_ANDROID
     QGuiApplication app(argc, argv);
-    //    QGuiApplication::styleHints()->setMousePressAndHoldInterval(2000); // in [ms]
+    if (!MAUIAndroid::checkRunTimePermissions({"android.permission.WRITE_EXTERNAL_STORAGE"}))
+        return -1;
 #else
     QApplication app(argc, argv);
 #endif
 
-    app.setApplicationName("Quill");
-    app.setApplicationVersion("1.0.0");
-    app.setApplicationDisplayName("Quill");
-    app.setWindowIcon(QIcon("./../assets/mauidemo.svg"));
+    app.setOrganizationName(QStringLiteral("IDK"));
+    //  app.setWindowIcon(QIcon(":/quill.png"));
+
+    MauiApp::instance()->setIconName("qrc:/quill.svg");
+
+    KLocalizedString::setApplicationDomain("quill");
+    KAboutData about(QStringLiteral("quill"),
+                     i18n("Quill"),
+                     QUILL_VERSION_STRING,
+                     i18n("TODO"),
+                     KAboutLicense::LGPL_V3,
+                     i18n("© 2019-%1 Bored random guy", QString::number(QDate::currentDate().year())),
+                     QStringLiteral("tbd"));
+    about.addAuthor(i18n("Sbancuz"), i18n("Developer"), QStringLiteral("tbd.com"));
+    about.setHomepage("https://mauikit.org");
+    about.setProductName("maui/quill");
+    //    about.setBugAddress("https://invent.kde.org/maui/buho/-/issues");
+    about.setOrganizationDomain(QUILL_URI);
+    about.setProgramLogo(app.windowIcon());
+
+    KAboutData::setApplicationData(about);
+
+    // QCommandLineOption newNoteContent(QStringList() << "c" << "content", "new note contents.", "content");
+
+    QCommandLineParser parser;
+
+    // parser.addOption(newNoteOption);
+    // parser.addOption(newNoteContent);
+
+    about.setupCommandLine(&parser);
+    parser.process(app);
+
+    about.processCommandLine(&parser);
+
+#if (defined Q_OS_LINUX || defined Q_OS_FREEBSD) && !defined Q_OS_ANDROID
+
+    // if(newNote)
+    // {
+    //     if(parser.isSet(newNoteContent))
+    //     {
+    //         noteContent = parser.value(newNoteContent);
+    //     }
+    // }
+    //
+    // if (AppInstance::attachToExistingInstance(newNote, noteContent))
+    // {
+    //     // Successfully attached to existing instance of Nota
+    //     return 0;
+    // }
+    //
+    AppInstance::registerService();
+#endif
+
+    // auto server = std::make_unique<Quill>();
 
     QQmlApplicationEngine engine;
-#ifdef STATIC_KIRIGAMI
-    KirigamiPlugin::getInstance().registerTypes();
-#endif
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QObject::connect(
+        &engine,
+        &QQmlApplicationEngine::objectCreated,
+        &app,
+        [url](QObject *obj, const QUrl &objUrl) {
+            if (!obj && url == objUrl)
+                QCoreApplication::exit(-1);
+        },
+        Qt::QueuedConnection);
 
-#ifdef STATIC_MAUIKIT
-    MauiKit::getInstance().registerTypes();
-
-#endif
-
-    // i don't know the purpose of the uri
-    qmlRegisterType<PagesModel>("org.maui.quill", 1, 0, "PagesList");
-
-
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty())
-        return -1;
-
+    engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
+    engine.load(url);
     return app.exec();
 }

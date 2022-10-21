@@ -1,52 +1,69 @@
-project(quill)
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.16)
+
+set(QUILL_VERSION 0.0.1)
+
+project(quill VERSION ${QUILL_VERSION})
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(REQUIRED_QT_VERSION 5.15.0)
+set(REQUIRED_KF5_VERSION 5.60)
+
+option(QUICK_COMPILER "Use QtQuick compiler to improve performance" TRUE)
 
 find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${ECM_MODULE_PATH})
 
+find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE COMPONENTS Qml Quick)
+find_package(KF5 ${REQUIRED_KF5_VERSION} REQUIRED COMPONENTS I18n CoreAddons)
+
 find_package(MauiKit REQUIRED)
-find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Qml Quick Sql Svg QuickControls2 Widgets)
-include(KDEInstallDirs)
+find_package(MauiKit REQUIRED COMPONENTS FileBrowsing)
+
+if(ANDROID)
+    find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE COMPONENTS AndroidExtras QuickControls2)
+    set(ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android_files)
+    set(ANDROID_ABIS "armeabi-v7a")
+elseif(UNIX)
+    find_package(KF5 ${REQUIRED_KF5_VERSION} REQUIRED COMPONENTS KIO)
+endif()
+
+if(UNIX AND NOT APPLE AND NOT ANDROID)
+    include(KDEInstallDirs)
+    include(KDECMakeSettings)
+    include(ECMInstallIcons)
+    include(ECMAddAppIcon)
+endif()
+
 include(KDECompilerSettings NO_POLICY_SCOPE)
-include(KDECMakeSettings)
-include(ECMInstallIcons)
+include(KDEClangFormat)
+include(ECMSetupVersion)
+include(ECMSourceVersionControl)
 include(FeatureSummary)
-include(ECMAddAppIcon)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTORCC ON)
-
-add_executable(Quill
-    src/models/pagesmodel.cpp
-    src/models/pagesmodel.h
-    src/assets.qrc
-    src/main.cpp
-    src/qml.qrc
+ecm_setup_version(${QUILL_VERSION}
+    VARIABLE_PREFIX QUILL
+    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/quill_version.h"
     )
-    
-if (ANDROID)
-    find_package(Qt5 REQUIRED COMPONENTS AndroidExtras)
 
-    target_link_libraries(Quill Qt5::AndroidExtras)
-    kde_source_files_enable_exceptions(index src/index.cpp)
-else() 
-    find_package(KF5 ${KF5_VERSION} REQUIRED COMPONENTS I18n Notifications Config KIO Service Attica)
-    find_package(Qt5 REQUIRED COMPONENTS WebEngine)
-
-    target_link_libraries(Quill KF5::ConfigCore KF5::Notifications KF5::KIOCore KF5::I18n KF5::Service KF5::Attica)
+if(QUICK_COMPILER)
+    find_package(Qt5QuickCompiler)
+    set_package_properties(Qt5QuickCompiler PROPERTIES
+        DESCRIPTION "Compile QML at build time"
+        TYPE OPTIONAL
+        )
 endif()
 
-if (TARGET create-apk-Quill)
-    set_target_properties(create-apk-Quill PROPERTIES ANDROID_APK_DIR "${MAUIKIT_ANDROID_DIR}")
-endif()
+add_subdirectory(src)
 
-target_link_libraries(Quill MauiKit Qt5::Sql Qt5::Qml Qt5::Widgets Qt5::Svg Qt5::QuickControls2)
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-install(TARGETS Quill ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-install(FILES org.kde.Quill.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-
-#TODO: port to ecm_install_icons()
-# install(FILES src/assets/mauidemo.svg DESTINATION ${KDE_INSTALL_ICONDIR}/hicolor/scalable/apps)
-# install(FILES org.kde.index.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-
-feature_summary(WHAT ALL   FATAL_ON_MISSING_REQUIRED_PACKAGES)
+file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
+kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
