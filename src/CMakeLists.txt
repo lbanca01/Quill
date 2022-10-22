@@ -23,13 +23,21 @@ endif()
 
 set(quill_SRCS
     main.cpp
+    server.cpp
     )
 
 set(quill_HDRS
+    server.h
     )
 
 set(quill_ASSETS
     )
+
+if(UNIX AND NOT ANDROID)
+    qt_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/server.h org.kde.Quill.xml)
+    qt_add_dbus_adaptor(quill_dbus_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.Quill.xml server.h Server)
+    qt_add_dbus_interface(quill_dbus_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.Quill.xml quillinterface)
+endif()
 
 if(ANDROID)
     add_library(${PROJECT_NAME} SHARED
@@ -42,7 +50,9 @@ else()
         ${quill_SRCS}
         ${quill_HDRS}
         ${quill_ASSETS}
-        ${quill_QML_QRC})
+        ${quill_QML_QRC}
+        ${quill_dbus_SRCS}
+        )
 endif()
 
 
@@ -55,7 +65,7 @@ if (ANDROID)
     #    set_target_properties(create-apk-${PROJECT_NAME} PROPERTIES ANDROID_APK_DIR "${APK_DIR}")
 
 elseif(UNIX)
-    target_link_libraries(${PROJECT_NAME} KF5::KIOCore KF5::KIOFileWidgets  Qt5::DBus)
+    target_link_libraries(${PROJECT_NAME} KF5::KIOCore KF5::KIOFileWidgets Qt5::DBus)
 endif()
 
 if(UNIX OR WIN32 OR APPLE AND NOT ANDROID)

@@ -17,6 +17,7 @@
 #endif
 
 #include "../quill_version.h"
+#include "server.h"
 
 #define QUILL_URI "org.maui.quill"
 
@@ -77,12 +78,12 @@ int Q_DECL_EXPORT main(int argc, char *argv[])
     //     }
     // }
     //
-    // if (AppInstance::attachToExistingInstance(newNote, noteContent))
-    // {
-    //     // Successfully attached to existing instance of Nota
-    //     return 0;
-    // }
-    //
+    if (AppInstance::attachToExistingInstance())
+    {
+      // Successfully attached to existing instance of Nota
+      return 0;
+    }
+
     AppInstance::registerService();
 #endif
 
